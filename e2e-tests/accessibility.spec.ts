@@ -220,4 +220,41 @@ test.describe('Accessibility Tests', () => {
       await expect(gameCardSvgs.nth(i)).toHaveAttribute('aria-hidden', 'true');
     }
   });
+
+  test('high contrast mode should persist across reloads and pages', async ({ page }) => {
+    await page.goto('/');
+    await page.evaluate(() => window.localStorage.removeItem('tailspin-high-contrast'));
+    await page.reload();
+
+    const toggle = page.getByTestId('high-contrast-toggle');
+    await expect(toggle).toHaveAttribute('aria-pressed', 'false');
+    await expect(page.locator('html')).not.toHaveClass(/high-contrast/);
+
+    await test.step('Enable high contrast mode', async () => {
+      await toggle.click();
+      await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+      await expect(page.locator('html')).toHaveClass(/high-contrast/);
+      expect(await page.evaluate(() => window.localStorage.getItem('tailspin-high-contrast'))).toBe('true');
+    });
+
+    await test.step('Keep the preference after a reload', async () => {
+      await page.reload();
+      await expect(page.getByTestId('high-contrast-toggle')).toHaveAttribute('aria-pressed', 'true');
+      await expect(page.locator('html')).toHaveClass(/high-contrast/);
+    });
+
+    await test.step('Keep the preference when navigating to another page', async () => {
+      await page.goto('/about');
+      await expect(page.getByTestId('high-contrast-toggle')).toHaveAttribute('aria-pressed', 'true');
+      await expect(page.locator('html')).toHaveClass(/high-contrast/);
+      await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(0, 0, 0)');
+    });
+
+    await test.step('Disable high contrast mode and clear the preference', async () => {
+      await page.getByTestId('high-contrast-toggle').click();
+      await expect(page.getByTestId('high-contrast-toggle')).toHaveAttribute('aria-pressed', 'false');
+      await expect(page.locator('html')).not.toHaveClass(/high-contrast/);
+      expect(await page.evaluate(() => window.localStorage.getItem('tailspin-high-contrast'))).toBe('false');
+    });
+  });
 });

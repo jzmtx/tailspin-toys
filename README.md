@@ -42,6 +42,10 @@ npm run build      # prebuild migrates + seeds, then builds the static site
 npm run preview
 ```
 
+### Accessibility
+
+Use the **High contrast** control in the site header to switch to a higher-contrast palette. The preference is stored in the browser and applied across page reloads and navigation; use the control again to return to the default theme.
+
 ## Database
 
 The SQLite database is built from `db/games.csv` — there is no live data to migrate.
