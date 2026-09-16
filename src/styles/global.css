@@ -1,1 +1,63 @@
 @import "tailwindcss";
+
+/*
+ * Keep the high-contrast palette explicit so it overrides the translucent
+ * decorative colors used by the default theme without changing the layout.
+ */
+html.high-contrast body {
+    background-color: #000;
+    color: #fff;
+}
+
+html.high-contrast header {
+    background-color: #000 !important;
+    border-bottom: 2px solid #fff;
+}
+
+html.high-contrast .bg-slate-800,
+html.high-contrast .bg-slate-800\/50,
+html.high-contrast .bg-slate-800\/60,
+html.high-contrast .bg-slate-800\/70,
+html.high-contrast .bg-slate-900,
+html.high-contrast .bg-white,
+html.high-contrast [class*="bg-blue-"],
+html.high-contrast [class*="bg-purple-"],
+html.high-contrast [class*="bg-gradient"] {
+    background-color: #000 !important;
+}
+
+html.high-contrast [class*="bg-gradient"] {
+    background-image: none !important;
+}
+
+html.high-contrast .text-slate-100,
+html.high-contrast .text-slate-200,
+html.high-contrast .text-slate-300,
+html.high-contrast .text-slate-400,
+html.high-contrast .text-blue-400,
+html.high-contrast .text-purple-300,
+html.high-contrast .text-yellow-400,
+html.high-contrast .text-white,
+html.high-contrast .text-slate-800 {
+    color: #fff !important;
+}
+
+html.high-contrast .border-slate-600,
+html.high-contrast .border-slate-700,
+html.high-contrast .border-slate-700\/50,
+html.high-contrast .border-white {
+    border-color: #fff !important;
+}
+
+html.high-contrast a,
+html.high-contrast button {
+    text-decoration-thickness: 2px;
+}
+
+html.high-contrast a:hover,
+html.high-contrast button:hover,
+html.high-contrast a:focus-visible,
+html.high-contrast button:focus-visible {
+    background-color: #fff !important;
+    color: #000 !important;
+}
